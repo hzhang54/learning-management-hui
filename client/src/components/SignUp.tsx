@@ -29,7 +29,7 @@ const SignUpComponent = () => {
     // The returned result from this function will be passed to forceRedirectUrl prop of the SignUp component below.
     const getRedirectUrl = () => {
         if (isCheckoutPage) {
-            return `/checkout?step=2&id=${courseId}`;
+            return `/checkout?step=2&id=${courseId}&showSignUp=false`;
         }
         // otherwise, we will do difference routes depending on userType is a teacher or a student
         // first get the userType from user's publicMetadata.userType.  AI is slow here. Why it didn't have enough info?

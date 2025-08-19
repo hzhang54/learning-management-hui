@@ -263,3 +263,70 @@ Redux tool kit do this easily.  We start by going to layout.tsx under src/app/ro
 
 Then we go to backend and got to client/state/api.ts customBaseQuery to configure this.
 We don't want to get messages when we list courses etc.  We only want notification when we update a user or delete a user, and its easier to do this from backend and directly connect error message to toast in api.ts.  Then if it is a mutation request, we can pass the success message to toast.
+
+## The start of the checkout page ##
+
+When the user signup and hit continue, the checkout flow take it to a stripe page to get credit card and billing information. Once they hit pay with credit card, it will do multiple things.  
+
+First if everything goes successfully, it takes them to the completed page. But also it will create multiple things. It creates a stripe payment and goes directly to stripe to handle transaction.  It also creates transaction records, so that the user can fetch later. This is in our transaction database. This will later be used on our payment history page where it shows the amount and payment method.
+
+It also add the user enrollment to the course. 
+
+It also adds progress data for the initial enrollment. It plays the role when the user is playing the video and tracks progress, so we can access it later on.
+
+We start by creating an account in test mode in stripe.  open .env.local and paste in stripe publishable and secrete keys.
+
+We set both publishable key and redirect url on the front end env, and secret key in the backend env.
+
+Do installation of stripe packages on both client and server sides.
+
+Now go to the backend and create a new file in src/controllers called transactionController.ts
+create a payment intent on the backend and we need to connect it to the front end
+
+In transaction controller, create a stripe payment intent with request and response from express. 
+Use getCourse and copy and paste as an example.
+
+This is necessary when we first initialize the stripe payment card checkout. With this, we created the endpint.  We also need to create routes.
+
+create routes/transactionRoutes.ts, copy courseRoutes.ts as a template. The route is "/stripe/payment-intent"
+
+Then in index.ts, add app.use for /transactions, and it will requireAuth, and pass in the transactionRoutes created above.
+
+Now we got to frontend, state/api.ts, in api endpoint section, create endpoints for transactions. The end point url in the api.ts is /transactions/stripe/payment-intent (combination of the routes and index.ts app use)
+
+in src/app/(nondashboard) folder, create a checkout folder. In this folder, create page.tsx
+
+Start with rafce, and call it CheckoutWizard.
+
+create in component directory WizardStepper.tsx, starting with rafce.
+
+We will create a separate hook called useCheckoutNavigation in the src/hooks folder to keep track of the checkout step
+
+The url for the checkout pages are like
+`/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`
+
+The signup component can change into signin if the user already has an account, but we don't want to navigate to the signin page we created earlier. That state is kept on the url above. This is only applicable for step 1.
+
+back in checkout/page.tsx, we will render to different component depending on the step.  First create a checkout/details/index.tsx.   We will not make a page for this. Start with rafce, call it CheckoutDetailsPage.
+
+Factor out the repeated used code to hooks/useCurrentCourse.ts start with
+export const useCurrentCourse = () => {
+        // get an instance of searchparams with useSearchParams()
+    const searchParams = useSearchParams();
+    // grab courseId by get id, and default to ""
+    const courseId = searchParams.get("id") ?? "";
+    // pass courseId into the hook useGetCourseQuery to get data: course
+    const { data: course } = useGetCourseQuery(courseId);
+
+}
+
+**Test what we have so far**
+
+(nondashboard)/checkout/page.tsx needs a "use client"
+
+in search courses page, click on enroll now. and get redirected to checkout page. 
+and we see the step wizard.
+
+we will use CoursePreview component to fill out the checkout detail.  Create CoursePreview.tsx in components directory.  Start with rafce.
+
+This finishes the checkout details page.

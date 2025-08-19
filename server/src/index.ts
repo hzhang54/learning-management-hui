@@ -10,6 +10,8 @@ import dynamoose from "dynamoose";
 import courseRoutes from "./routes/courseRoutes.js";
 import { clerkMiddleware, createClerkClient, requireAuth } from "@clerk/express";
 import userClerkRoutes from "./routes/userClerkRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
+
 
 /* CONFIGURATIONS */
 
@@ -54,6 +56,9 @@ app.use("/courses", courseRoutes);
 // how can we authentical?  redux toolkit allow authetication every api call.
 //app.use("/users/clerk", requireAuth(), userClerkRoutes);
 app.use("/users/clerk", userClerkRoutes);
+// add transaction routes
+app.use("/transactions", requireAuth(), transactionRoutes);
+
 
 /* SERVER */
 
