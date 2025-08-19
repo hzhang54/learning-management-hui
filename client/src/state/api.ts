@@ -42,7 +42,7 @@ const customBaseQuery = async (
       if (successMessage) toast.success(successMessage);
     }
 
-    // unwrap data component
+    // unwrap data component and handle contents if we have no response.
     if (result.data) {
       result.data = result.data.data;
     } else if (

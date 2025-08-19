@@ -245,3 +245,21 @@ Now we need to copy the (dashboard)/user/settings/page.tsx to teacher.
 
 Currently one can directly hit the backend, to list courses, get course.  We want to have backend secured with authentication. Especially they can access clerk user info and change user accout without authentication at the end points.
 
+4:44:32
+For now, we will just secure the update user.
+
+In server/src/index.ts, Following app.use(clerkMiddleware), requireAuth() in app.use("route") prevent  updating user settings
+how can we authentical?  redux toolkit allow authetication every api call.
+
+in src/state/api.ts customBaseQuery, add a prepareHeaders in the fetchBaseQuery prop.
+setting headers to `Bearer ${token}` to authenticate API is very common. Even Cognito does this. 
+
+Also on the backend, we need to change the .env publishable key to CLERK_PUBLISHABLE_KEY.  This is different from the front end.
+
+When we update user setting, we as developers can see response from console, but user don't see any feedback.  We want to add things like chadcn Toast notifications. But recomment Sonner instead of Toast.
+Sonner is good for multiple notification.
+
+Redux tool kit do this easily.  We start by going to layout.tsx under src/app/root-layout and pass in toaster and import toaster from sonner.
+
+Then we go to backend and got to client/state/api.ts customBaseQuery to configure this.
+We don't want to get messages when we list courses etc.  We only want notification when we update a user or delete a user, and its easier to do this from backend and directly connect error message to toast in api.ts.  Then if it is a mutation request, we can pass the success message to toast.
