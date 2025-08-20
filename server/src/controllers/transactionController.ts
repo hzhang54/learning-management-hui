@@ -129,4 +129,31 @@ export const createTransaction = async (
   }
 };
 
+export const listTransactions = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  // grab the userId passed as query string
+  const { userId } = req.query;
+
+  try {
+    // define a transaction by passing userId to a Transaction.query, filter by userId and exec it
+    // it allows us to grab the entire transaction list if we don't have an userid
+    // or grab just that user. In most case we just need the userId, but it is a multi-function endpoint
+
+    const transactions = userId
+      ? await Transaction.query("userId").eq(userId).exec()
+      : await Transaction.scan().exec();
+
+    // keep the message blank to prevent front end from seeing the message.
+    res.json({
+      message: "Transactions retrieved successfully",
+      // data is not object, it's just the transactions
+      data: transactions,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: "Error retrieving transactions", error });
+  }
+};
+
 export default stripe;

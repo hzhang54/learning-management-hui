@@ -358,3 +358,22 @@ next we work on the completion page.
 
 create completion/index.tsx in app/(nondashboard)/checkout
 This is the component we include in the check wizard in app/(nondashboard)/checkout/page.tsx
+
+The last part of the check out is grabing the record from the transaction table and putting it on the billing page.
+
+We need to create the end point that list all the transactions, then we need to create the ui to render them.
+
+So these are the kind of higher level language description that ones one has the organ and the means of control, they will automatically make sense to the language model if the language model evolve and remember it's evolutionary or developmental history. It can automatically cascade to its available source and just know how to put it together instead of us having to specify every step, and that is what can make vibe coding possible -- not just relying on the language model but having a hierachy and know how this hieacchy develop from a single cell.  This is the secrete of intelligent life or society, because it does not start from a blue print with an intelligence from outside, and relying on the process external to your own society, which is where mysticism come from, it will know if your own contry is  built by yorself from nothing and you will have a self and have goals that is endogeneous and you are truely automated to achieve the abstract language is describing, because you will be able to fill out detail, because you created all these your self.  beliving in vibe coding is superstition. But have language model follow a developmental process, it will be able to do it, using the resources you have, in a most simple way possible. Greate intelligence needs to be built step by step, not something from outside.
+
+So go back to transaction controler, copy createStripePaymentIntent function, and remove everything but the try error block and called it listTransactions.
+
+Now we go back to transaction routes, and add a route for listTransactions
+
+Now go to frontend state/api.ts 
+
+For the front end, we create a file under app/(dashboard)/user called billing/page.tsx
+start with rafce, and call it UserBilling
+
+We do the same thing for the teacher. You can create a reusable component, but here we are just doing copy and paste.
+
+## Creating courses ##
