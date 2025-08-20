@@ -6,6 +6,9 @@ import { useCheckoutNavigation } from "@/hooks/useCheckoutNavigation";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import CheckoutDetailsPage from "./details";
+import PaymentPage from "./payment";
+import CompletionPage from "./completion";
+
 
 const CheckoutWizard = () => {
   // use useUser from clerk nextjs to check if use isLoaded
@@ -28,11 +31,11 @@ const CheckoutWizard = () => {
       case 1:
         return <CheckoutDetailsPage />;
       case 2:
-        return "Payment page";
+        return <PaymentPage />;
       case 3:
-        return "Completion page";
+        return <CompletionPage />;
       default:
-        return "Checkout details page";
+        return <CheckoutDetailsPage />;
     }
   };
   // set up jsx, return a div with class name "checkout", inside is a div with class name checkout__content

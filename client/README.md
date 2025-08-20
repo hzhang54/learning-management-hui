@@ -330,3 +330,31 @@ and we see the step wizard.
 we will use CoursePreview component to fill out the checkout detail.  Create CoursePreview.tsx in components directory.  Start with rafce.
 
 This finishes the checkout details page.
+
+In case 2 of the (nondashboard)/checkout/page.tsx, we pass in PaymentPage component, and create a file in (nondashboard)/checkout/payment/index.tsx, rafce, call it PaymentPageContent.
+
+In the same directory, create another file StripeProvider.tsx and wrap the payment page content with StripeProvider inside the PaymentPage.
+
+StripeProvider starts with rafce. Once we follow the stripe spec to set up provider,
+we come back to index.tsx and define the payment page content.
+
+with form handling button onclicking functions commented out, we can check out how the step 2 payment page styling look like on the front end. Note here, the credit info are handled here, instead on stripe payment page.
+
+The payment links are based on what you have on the stripe dashboard.
+
+Handle transaction will involving creating transaction, course enrollment, course progress etc. So we need to go to backend first and set that up before we create handle submit. 
+
+go back to transactionControllers in the backend. Copy createStripePaymentIntent() and leave only the try catch blocks to get start with, and rename it to createTransaction and go from there.
+
+with createTrasaction in the controller, we got to transactionRoutes.ts and add the post router, with route "/".
+
+Then go to api on the front end, and set a endpoint in our api redux toolkit query create transaction.
+
+now go to app/(nondashboard)/checkout/payment/index.tsx to import the cerateTransaction function from the api, and use that to implement handleSubmit, which is what happens when we submit the payment info form.
+
+We can test out the payment using strike fake credit card number and check in noSQL Workbench and see in the transaction table a record created today.
+
+next we work on the completion page.
+
+create completion/index.tsx in app/(nondashboard)/checkout
+This is the component we include in the check wizard in app/(nondashboard)/checkout/page.tsx

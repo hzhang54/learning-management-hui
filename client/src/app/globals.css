@@ -219,7 +219,7 @@ input[type="color"] {
 
 /* Completion Page */
 .completion {
-  @apply flex flex-col h-full items-center justify-center bg-background text-foreground;
+  @apply flex flex-col h-full items-center justify-center bg-customgreys-primarybg text-white-50;
 }
 
 .completion__content {
@@ -236,6 +236,10 @@ input[type="color"] {
 
 .completion__message {
   @apply mb-1;
+}
+
+.completion__support {
+  @apply mt-4 text-center text-customgreys-dirtyGrey;
 }
 
 .completion__action {

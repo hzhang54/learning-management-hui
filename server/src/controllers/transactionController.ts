@@ -1,6 +1,9 @@
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import type { Request, Response } from "express";
+import Course from "../models/courseModel.js";
+import Transaction from "../models/transactionModel.js";
+import UserCourseProgress from "../models/userCourseProgressModel.js";
 
 dotenv.config();
 
@@ -48,6 +51,81 @@ export const createStripePaymentIntent = async (
     res
       .status(500)
       .json({ message: "Error creating stripe payment intent", error });
+  }
+};
+
+export const createTransaction = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  // grab info from front end
+  const { userId, courseId, transactionId, amount, paymentProvider } = req.body;
+
+  try {
+    // 1. get course info
+    //   We use course info to update course.  First we make sure the course exists, and
+    // so we can connect to our transaction.
+    const course = await Course.get(courseId);
+
+    // 2. create transaction record
+    // new Transaction from transaction model, include all props, such as dateTime, userId, courseId, transactionId, amount, and paymentProvider
+    const NewTransaction = new Transaction({
+      dateTime: new Date().toISOString(),
+      userId,
+      courseId,
+      transactionId,
+      amount,
+      paymentProvider,
+    });
+    // also save the transaction to database
+    await NewTransaction.save();
+
+    // 3. create initial course progress
+    // also need to create user's progress. new a usercourseprogress from data model, passing in object
+    // consisting of user id, course id, and enrollment date, with overall progress of zero,
+    // as well as sections, that is sections in the course mapped out to section id, chapters, which is section.chapters
+    // mapped out to chapter id and completed set to 0
+
+    const initialProgress = new UserCourseProgress({
+      userId,
+      courseId,
+      enrollmentDate: new Date().toISOString(),
+      overallProgress: 0,
+      sections: course.sections.map((section: any) => ({
+        sectionId: section.sectionId,
+        chapters: section.chapters.map((chapter: any) => ({
+          chapterId: chapter.chapterId,
+          completed: false,
+        })),
+      })),
+      lastAccessedTimestamp: new Date().toISOString(),
+    });
+    await initialProgress.save();
+
+    // add the enrollment to the course by updating the course, by passing in course id and enrollments with userid
+    // 4. add enrollment to relevant course
+    await Course.update(
+      { courseId },
+      {
+        $ADD: {
+          enrollments: [{ userId }],
+        },
+      }
+    );
+
+    // keep the message blank to prevent front end from seeing the message.
+    // in the data we include transaction and courseProgress
+    res.json({
+      message: "Purchase Course successfully",
+      data: {
+        transaction: NewTransaction,
+        courseProgress: initialProgress,
+      },
+    });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: "Error creating transaction and enrollment", error });
   }
 };
 
