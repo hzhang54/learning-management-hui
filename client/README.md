@@ -452,3 +452,22 @@ go to src/state/index.ts and add the state.global.courseEditor
 Added ChapterModal.tsx, Droppable.tsx, page.tsx, SectionModal.tsx in teacher/courses/[id]
 added CustomModal.tsx without too much explanantion.  Commented out video upload. 
 ChapterModal.tsx and SectionModal.tsx are similar. Should look at in comparison.
+
+When we have form (section or chapter modal) data, these are stored in the local state.  When we update form, they are saved in the redux store.  And they are not saved in the backend. When we save draft. we are updating the backend with combined info of the course info and the section/chapter info.
+
+Next we implement user course view.  The user can watch video and at 80% the video is marked complete.
+
+We will walk through the backend but only copy over the front end.
+
+Create a new file in the backend controller called userCourseProgressController.ts
+
+user course progress data model has per user progress for each section and nested chapter.
+
+Then create new routes called userCourseProgressRoutes.ts
+
+The update index file, do app.use
+
+Now we update the frontend endpoint api.
+
+This conclude the local development and we will prepare for deployment.
+

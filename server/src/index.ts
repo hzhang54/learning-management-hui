@@ -11,6 +11,7 @@ import courseRoutes from "./routes/courseRoutes.js";
 import { clerkMiddleware, createClerkClient, requireAuth } from "@clerk/express";
 import userClerkRoutes from "./routes/userClerkRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
+import userCourseProgressRoutes from "./routes/userCourseProgressRoutes.js";
 
 
 /* CONFIGURATIONS */
@@ -58,7 +59,7 @@ app.use("/courses", courseRoutes);
 app.use("/users/clerk", userClerkRoutes);
 // add transaction routes
 app.use("/transactions", requireAuth(), transactionRoutes);
-
+app.use("/users/course-progress", requireAuth(), userCourseProgressRoutes);
 
 /* SERVER */
 

@@ -19,13 +19,13 @@ export default clerkMiddleware(async (auth, req) => {
   //  return;
   //}
   const { sessionClaims } = await auth();
-  //const userRole =
-  //  (sessionClaims?.metadata as { userType: "student" | "teacher" })
-  //    ?.userType || "student";
+  const userRole =
+    (sessionClaims?.metadata as { userType: "student" | "teacher" })
+      ?.userType || "student";
 
   // For now, let's disable the role-based redirects to test the routes
   // We'll implement proper role checking later
-  const userRole = "teacher"; // Temporarily hardcode as teacher for testing
+  // const userRole = "teacher"; // Temporarily hardcode as teacher for testing
 
   // Debug logging
   console.log("Middleware - URL:", req.url);

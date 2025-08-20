@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import ChaptersSidebar from "@/components/courses/[courseId]/ChaptersSidebar";
 
 export default function DashboardLayout({
   children,
@@ -54,10 +55,17 @@ export default function DashboardLayout({
         {/* add a div with classname dashboard_content*/}
         <div className="dashboard__content">
           {/* chapter sidebar will go here if it is a course page */}
+          {courseId && <ChaptersSidebar />}
           {/* add a div with class name cn() from tailwind, passing it dashboard__main
         and set the style with a height of 100 view port height
         */}
-          <div className={cn("dashboard__main")} style={{ height: "100vh" }}>
+          <div
+            className={cn(
+              "dashboard__main",
+              isCoursePage && "dashboard__main--not-course"
+            )}
+            style={{ height: "100vh" }}
+          >
             <Navbar isCoursePage={isCoursePage} />
             <main className="dashboard__body">{children}</main>
           </div>
