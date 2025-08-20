@@ -416,4 +416,16 @@ AI works by predicting next word.  So it is a developmental intelligence.  It wo
 we are doing full crud, so we also do delete course.  Start with creating course as template.
 
 So far we have crud, but these don't handle uploading video.
+We will do that later when we deal with aws s3 setup.
+
+For now, we will create course routes. 
+Install multer on server, also install @types/multer.  Use multer to temporarily store files and images until we are ready to upload to aws
+
+How we go to src/state/api.ts and define the end points and make connections to our backend.
+
+When you save the courses, the related tags are stored in redux toolkit and when you update the course, a list of tag are invalidated and refetched, and this tells redux what to do, so you already have the updated  info.  React query does the same thing.
+
+Now we build the list of courses that all the teachers have put into the system. This is reached from the sidebar "Courses".  It should show "view only" as you can't edit course that is not yours.
+
+
 
