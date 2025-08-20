@@ -377,3 +377,43 @@ start with rafce, and call it UserBilling
 We do the same thing for the teacher. You can create a reusable component, but here we are just doing copy and paste.
 
 ## Creating courses ##
+
+This section handles editing and creating courses.  This is more complicated than one imagine.
+
+Courese data is extensive, with course, sections, chapters, and comments. There are also videos that we want to upload to S3.
+
+When you create a course, it creates a default course. It also takes you to an edit page. 
+You can save a draft before you publish it. When you add a section, you can have it saved.
+
+You can also add chapter for each section. You can also upload videos. When you hit save, it doesn't save the sections into the backend.
+All the data on the creation page are stored on the front end. This is for ux perspective.  We are going to store this state into Redux.
+
+This is because if you constantly make API calls the make the front and backend consistent, it's problematic.  You want to make sure that none of this gets saved until someone hits save draft.
+
+This is the ux people expect when you are editting something large and you don't want to publish while you are editting.
+
+We will first create the backend to creating and updating the course, and a separate endpoint for uploading video.
+
+We go to server/src/controllers/courseController.ts
+
+Copy getCourse() as an example to get started, and change the name to createCourse
+
+we know we want to create a course id and imported v4 as uuidv4.  See if that's enough hint for ai to know what to do.  Providing an import is like a protein created from dna.  See if development intelligence is smart enough to know where to use it.  Maybe in the future, develop ai to tune to that.
+
+When the course is set up, just say "save the newCourse" is enough to get the right statement.
+We want to create a strategy so that nature and short prompt can generate correct results with a lot of fault tolerance to the prompt construction.
+
+Also having example of previous code is also a constraint to the ai.
+
+When we hit the save button and update and change information.  So we need another function for this. It will be a separate end point. We will copy createCourse and update it.
+
+The way the app's developmental stages is very much like video teaching material.  And we just remix youtube app building tutorial with AI, and that exact same copy and paste and update procedure is how our product works.
+
+And the mechanism we constraint ai is the same mechanism the video teach want to minimize typing. And there are meta prompt that cover all, like rafce, or coping and pasting, and lower level library inclusion, so the AI knows what to do, as well as comment and code as rna/dna.
+
+AI works by predicting next word.  So it is a developmental intelligence.  It works best when we combine that will real time development in youtube video app dev.  AI coding and youtube video works greate together.
+
+we are doing full crud, so we also do delete course.  Start with creating course as template.
+
+So far we have crud, but these don't handle uploading video.
+
