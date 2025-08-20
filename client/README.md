@@ -440,3 +440,15 @@ To test, go to clerk dashboard, and change user metadata public section and chan
 then you can see localhost:3000/teacher/courses
 
 Something is wrong with the appsidebar.tsx.  Current it works for users, and I have hardcoded the role to teacher in middleware to test the creation of courses.  I'll switch it back to student.  In clerk, I have set it back to student.
+
+create [id]/page.tsx in src/app/(dashboard)/teacher/courses 
+This is for viewing individual pages.  This is where we add course editor page.
+rafce pass in CourseEditor
+
+Course editor is one big form.  Tricky part is the dragable option. We want to drag the sections up and down.
+
+go to src/state/index.ts and add the state.global.courseEditor
+
+Added ChapterModal.tsx, Droppable.tsx, page.tsx, SectionModal.tsx in teacher/courses/[id]
+added CustomModal.tsx without too much explanantion.  Commented out video upload. 
+ChapterModal.tsx and SectionModal.tsx are similar. Should look at in comparison.
