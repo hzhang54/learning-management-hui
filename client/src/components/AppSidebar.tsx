@@ -2,24 +2,24 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import React from "react";
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    useSidebar,
-  } from "@/components/ui/sidebar";
-  import {
-    BookOpen,
-    Briefcase,
-    DollarSign,
-    LogOut,
-    PanelLeft,
-    Settings,
-    User,
-  } from "lucide-react";
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import {
+  BookOpen,
+  Briefcase,
+  DollarSign,
+  LogOut,
+  PanelLeft,
+  Settings,
+  User,
+} from "lucide-react";
 import Loading from "./Loading";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -99,6 +99,11 @@ const AppSidebar = () => {
   // Nav link is dependent on userType, grab it from publicMetadata.userType as "student" for typing
   const userType =
     (user.publicMetadata.userType as "student" | "teacher") || "student";
+
+  // Debug: Check what userType is being detected
+  console.log("User metadata:", user.publicMetadata);
+  console.log("Detected userType:", userType);
+
   // depending on the user role, set the currentNavLinks to the correct type of nav links
   const currentNavLinks = navLinks[userType];
 
@@ -113,7 +118,7 @@ const AppSidebar = () => {
   // followed with a p tag with className app-sidebar__title with the text HuiZhang
   // followed by a PanelLife with classname app-sidebar__collapse-icon
   // below that is SidebarContent, followed by SidebarMenu with className app-sidebar__nav-menu, followed by
-  // currentNavLinks mapped out passing links into the lambda.  check if the link is active, if so, 
+  // currentNavLinks mapped out passing links into the lambda.  check if the link is active, if so,
   // give a different color. and return a SidebarMenuItem, if its active, set clas name to bg-gray-800.
   // below is a SidebarMenuButton, with props, asChild, size lg, className is cn(app-sidebar-nav-button),
   // if not active, passin another color: dirty grey
@@ -212,7 +217,6 @@ const AppSidebar = () => {
       </SidebarFooter>
     </Sidebar>
   );
-
 };
 
 export default AppSidebar;

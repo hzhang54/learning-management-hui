@@ -427,5 +427,16 @@ When you save the courses, the related tags are stored in redux toolkit and when
 
 Now we build the list of courses that all the teachers have put into the system. This is reached from the sidebar "Courses".  It should show "view only" as you can't edit course that is not yours.
 
+We want to have create course button which allows us to create courses. And we are allowed to edit and delete courses, but only if it's your course.
 
+We also have search functionality and category.  This is all done on the front end.
 
+in src/app/(dashboard)/teacher, create courses/page.tsx, rafce, call it Courses.
+Create components/Toolbar.tsx for use in the courses/page.tsx.
+Also create components/TeacherCourseCard.tsx
+Make sure you have use client in courses/page.tsx.
+
+To test, go to clerk dashboard, and change user metadata public section and change userType to teacher. 
+then you can see localhost:3000/teacher/courses
+
+Something is wrong with the appsidebar.tsx.  Current it works for users, and I have hardcoded the role to teacher in middleware to test the creation of courses.  I'll switch it back to student.  In clerk, I have set it back to student.
