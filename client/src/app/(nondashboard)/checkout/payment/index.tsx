@@ -48,14 +48,27 @@ const PaymentPageContent = () => {
     // await stripe.confirmPayment and save result into const result,
     // passing in elements, with confirm params set to return_url, which is the url in the env file
     // followed by id = course id
+    /*
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`,
       },
       redirect: "if_required",
-    });
+    });*/
+    const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL
+      ? `http://${process.env.NEXT_PUBLIC_LOCAL_URL}`
+      : process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : undefined;
 
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${baseUrl}/checkout?step=3&id=${courseId}`,
+      },
+      redirect: "if_required",
+    });
     // if result.paymentIntent's status is succeeded
     // we can create the transaction data we need to send to the backend
     if (result.paymentIntent?.status === "succeeded") {

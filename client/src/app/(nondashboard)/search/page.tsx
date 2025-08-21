@@ -54,14 +54,18 @@ const Search = () => {
   const handleCourseSelect = (course: Course) => {
     setSelectedCourse(course);
     // update the url with the course id
-    router.push(`/search?id=${course.courseId}`);
+    router.push(`/search?id=${course.courseId}`, {
+      scroll: false,
+    });
   };
 
   // create a handleEnrollNow function, takes in a courseId, 
   // and push a route like /checkout?step-1&id=courseid
   // 2:41:40
   const handleEnrollNow = (courseId: string) => {
-    router.push(`/checkout?step-1&id=${courseId}&showSignUp=false`);
+    router.push(`/checkout?step-1&id=${courseId}&showSignUp=false`, {
+      scroll: false,
+    });
   };
 
   return (

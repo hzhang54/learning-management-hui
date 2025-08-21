@@ -26,7 +26,9 @@ export const useCheckoutNavigation = () => {
         // push the url using the values we have created like below:
         // `/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`
         router.push(
-            `/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`
+            `/checkout?step=${newStep}&id=${courseId}&showSignUp=${showSignUp}`, {
+                scroll: false,
+              }
         );
     }, [courseId, isSignedIn, router]);
     
