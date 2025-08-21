@@ -3,6 +3,9 @@ import Course from "../models/courseModel.js";
 // import uuid for setting default value for the courses
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "@clerk/express";
+import AWS from "aws-sdk";
+
+const s3 = new AWS.S3();
 
 // grab courses by category, use query string in http
 export const listCourses = async (
@@ -209,5 +212,48 @@ export const deleteCourse = async (
     res.json({ message: "Course deleted successfully" });
   } catch (error: any) {
     res.status(500).json({ message: "Error deleting course", error });
+  }
+};
+
+// creating an end point to upload video to S3,
+// so that when aws distribute throu cloud front, the content is available with little laterncy
+export const getUploadVideoUrl = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  // from body, grab filename and filetype from frontend
+  const { fileName, fileType } = req.body;
+  // make sure filenames and filetypes are validated.
+  if (!fileName || !fileType) {
+    res.status(400).json({ message: "File name and type are required" });
+    return;
+  }
+
+  try {
+    // create an unique id
+    const uniqueId = uuidv4();
+    //construct a s3 key to store the video
+    const s3Key = `videos/${uniqueId}/${fileName}`;
+
+    // the S#_BUCKET_NAME will be an environment variable on the deployment environment
+    const s3Params = {
+      Bucket: process.env.S3_BUCKET_NAME || "",
+      Key: s3Key,
+      Expires: 60,
+      ContentType: fileType,
+    };
+    // a presigned url for the s3, which allows uploading large object
+    // because api gateway has a limit of 10 mb. This is a front end thing that the client get.
+    const uploadUrl = s3.getSignedUrl("putObject", s3Params); 
+    // construct a video usr. 
+    const videoUrl = `${process.env.CLOUDFRONT_DOMAIN}/videos/${uniqueId}/${fileName}`;
+    // send both url to the front end. Save the video url in the db so we know the link to section and chapter
+    // while upload url is for uploading.
+    res.json({
+      message: "Upload URL generated successfully",
+      data: { uploadUrl, videoUrl },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error generating upload URL", error });
   }
 };

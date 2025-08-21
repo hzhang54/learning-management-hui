@@ -11,6 +11,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import { Suspense } from "react";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${dmSans.className}`}>
           <Providers>
+          <Suspense fallback={null}>
             <div className="root-layout">
               {/*<header className="flex justify-between items-center p-4">
                 <SignedOut>
@@ -48,6 +50,7 @@ export default function RootLayout({
               </header> */}
               {children}
             </div>
+            </Suspense>
             <Toaster richColors closeButton />
           </Providers>
         </body>

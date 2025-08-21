@@ -1,5 +1,5 @@
 import express from "express";
-import { createCourse, deleteCourse, getCourse, listCourses, updateCourse } from "../controllers/courseController.js";
+import { createCourse, deleteCourse, getCourse, listCourses, updateCourse, getUploadVideoUrl, } from "../controllers/courseController.js";
 import { requireAuth } from "@clerk/express";
 import multer from "multer";
 
@@ -16,5 +16,12 @@ router.put("/:courseId", requireAuth(), upload.single("image"), updateCourse);
 router.delete("/:courseId", requireAuth(), deleteCourse);
 // route for getting a single course
 router.get("/:courseId", getCourse);
+
+
+router.post(
+    "/:courseId/sections/:sectionId/chapters/:chapterId/get-upload-url",
+    requireAuth(),
+    getUploadVideoUrl
+  );
 
 export default router;

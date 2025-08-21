@@ -1,0 +1,3 @@
+Could you study this learning management system and write a detailed design document including a detailed description so that a developer can recreate this implementation by following this design, without refering to the source code?
+
+Can you write a detailed task list so that if a developer wants to implement this app by following the design document, he can  check of the tasks one by one starting from setting up the development environment and implementing required dependencies, up to deployment and testing?

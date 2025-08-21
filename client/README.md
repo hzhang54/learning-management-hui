@@ -471,3 +471,15 @@ Now we update the frontend endpoint api.
 
 This conclude the local development and we will prepare for deployment.
 
+In course controller, create a function for an endpoint to upload video to s3.  
+The goto course route to create a new post route for "/:courseId/sections/:sectionId/chapters/:chapterId/get-upload-url",
+
+Add useGetUploadVideoUrlMutation in state/api.ts in the front end.
+
+In course editor in teacher/courses/[id]/page, and upload all videos before create course form data.
+
+In the root layout, need to add suspense.  Otherwise it will not build at deployment.
+
+Also turn off certain eslint in @typescript.
+
+All turn off some eslint to help with deployment.

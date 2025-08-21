@@ -365,7 +365,7 @@ async function uploadVideo(
       fileName: file.name,
       fileType: file.type,
     }).unwrap();
-
+    // we are fetching from aws.  This is not redux toolkit
     await fetch(uploadUrl, {
       method: "PUT",
       headers: {

@@ -23,7 +23,7 @@ const Course = () => {
   } = useCourseProgressData();
   console.log("currentChapter.video:", currentChapter);
 
-  const playerRef = useRef<ReactPlayer>(null);
+  const playerRef = useRef<any>(null);
 
   const handleProgress = ({ played }: { played: number }) => {
     if (
@@ -76,21 +76,18 @@ const Course = () => {
         <Card className="course__video">
           <CardContent className="course__video-container">
             {currentChapter?.video ? (
-              <ReactPlayer
-                ref={playerRef}
-                url={currentChapter.video as string}
-                controls
-                width="100%"
-                height="100%"
-                onProgress={handleProgress}
-                config={{
-                  file: {
-                    attributes: {
-                      controlsList: "nodownload",
-                    },
-                  },
-                }}
-              />
+              <>
+                {(ReactPlayer as any)(
+                  {
+                    ref: playerRef,
+                    url: currentChapter.video as string,
+                    controls: true,
+                    width: "100%",
+                    height: "100%",
+                    onProgress: handleProgress
+                  }
+                )}
+              </>
             ) : (
               <div className="course__no-video">
                 No video available for this chapter.
