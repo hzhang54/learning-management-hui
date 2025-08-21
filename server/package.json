@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && npx tsc && cpx \"src/seed/data/**/*\" \"dist/seed/data",
+    "build": "rimraf dist && npx tsc && cpx \"src/seed/data/**/*\" \"dist/seed/data\"",
     "start": "npm run build && node dist/index.js",
     "dev": "concurrently \"npx tsc -w\" \"nodemon --exec tsx src/index.ts\"",
     "seed": "tsx src/seed/seedDynamodb.ts"

@@ -53,6 +53,18 @@ async function createTables() {
 
   for (const model of models) {
     const tableName = model.name;
+    
+    // Check if table already exists to prevent re-registration
+    try {
+      const existingModel = dynamoose.model(tableName);
+      if (existingModel) {
+        console.log(`Table already exists: ${tableName}`);
+        continue;
+      }
+    } catch (error) {
+      // Model doesn't exist, proceed with creation
+    }
+    
     const table = new dynamoose.Table(tableName, [model], {
       create: true,
       update: true,
